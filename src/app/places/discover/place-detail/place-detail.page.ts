@@ -9,6 +9,7 @@ import { Place } from '../../place.model';
 import { CreateBookingsComponent } from '../../../bookings/create-bookings/create-bookings.component';
 import { BookingService } from 'src/app/bookings/booking.service';
 import { AuthService } from 'src/app/auth/auth.service';
+import { MapModalComponent } from 'src/app/shared/map-modal/map-modal.component';
 
 @Component({
   selector: 'app-place-detail',
@@ -121,6 +122,22 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
             });
         }
       });
+  }
+
+  onShowFullMap() {
+    this.modalCtrl.create({component: MapModalComponent, componentProps:{
+      center: {
+        lat: this.place.location,
+        lng: this.place.location
+      },
+      selectable: false,
+      closeButtonText: 'close',
+      title: this.place.location.address
+     }
+    })
+    .then(modelEl =>{
+      modelEl.present();
+    });
   }
 
   ngOnDestroy() {
