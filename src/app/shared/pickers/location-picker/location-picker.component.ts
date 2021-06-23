@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { ActionSheetController, AlertController, ModalController, NumericValueAccessor } from '@ionic/angular';
 import { of } from 'rxjs';
 import { Plugins, Capacitor } from '@capacitor/core';
@@ -17,6 +17,8 @@ import { MapModalComponent } from '../../map-modal/map-modal.component';
 export class LocationPickerComponent implements OnInit {
   @Output() locationPick = new EventEmitter<PlaceLocation>();
   selectedLocationImage: string;
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  @Input() showPreview = false;
   isLoading = false;
 
   constructor(
@@ -148,8 +150,8 @@ export class LocationPickerComponent implements OnInit {
 
   private createPlace(lat: number, lng: number) {
     const pickedLocation: PlaceLocation = {
-      lat: lat,
-      lng: lng,
+      lat,
+      lng,
       address: null,
       staticMapImageUrl: null
     };

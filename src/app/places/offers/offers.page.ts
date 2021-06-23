@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { IonItemSliding } from '@ionic/angular';
+import { IonItemSliding, LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { PlacesService } from '../places.service';
 import { Place } from '../place.model';
+import { BookingService } from 'src/app/bookings/booking.service';
 
 // @Component({
 //   selector: 'app-offers',
@@ -40,7 +41,10 @@ export class OffersPage implements OnInit, OnDestroy {
 
   constructor(
     private placesService: PlacesService,
-    private router: Router) {}
+    private router: Router,
+    private bookingService: BookingService,
+    private loadingCtrl: LoadingController
+    ) {}
 
   ngOnInit() {
     // this.offers = this.placesService.places;
@@ -60,6 +64,16 @@ export class OffersPage implements OnInit, OnDestroy {
     slidingItem.close();
     this.router.navigate(['/', 'places', 'tabs', 'offers', 'edit', offerId]);
     console.log('Editing item', offerId);
+  }
+
+  newOfferDelete(offerId: string, slidingEl: IonItemSliding) {
+    console.log(offerId);
+    slidingEl.close();
+    this.loadingCtrl.create({message:'Cancelling...'}).then(loadingEl =>{
+      loadingEl.dismiss();
+    });
+    this.bookingService.cancelBooking(offerId).subscribe();
+    // cancel booking wiht id offerId
   }
 
   ngOnDestroy() {

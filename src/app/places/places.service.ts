@@ -197,12 +197,5 @@ export class PlacesService {
            this._places.next(updatedPlaces);
         })
       );
-    // return this.places.pipe(
-    //   take(1),
-    //   delay(1000),
-    //   tap(places => {
-    //     // eslint-disable-next-line no-underscore-dangle
-
-    //   }));
   }
 }
